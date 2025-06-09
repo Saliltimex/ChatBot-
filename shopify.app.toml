@@ -1,13 +1,14 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "YOUR_CLIENT_ID"
-name = "shop-chat-agent"
-handle = "shop-chat-agent"
-application_url = "https://shop-chat-agent.com"
+client_id = "e5345202433ca133491f3f117ceb4273"
+name = "Timex Chat AI"
+handle = "timex-chat-ai"
+application_url = "https://localhost:3458"
 embedded = true
 
 [build]
 include_config_on_deploy = true
+automatically_update_urls_on_dev = false
 
 [webhooks]
 api_version = "2025-04"
@@ -17,12 +18,11 @@ api_version = "2025-04"
 scopes = "customer_read_customers,customer_read_orders,customer_read_store_credit_account_transactions,customer_read_store_credit_accounts,unauthenticated_read_product_listings"
 
 [auth]
-redirect_urls = [ "https://shop-chat-agent.com/api/auth" ]
+redirect_urls = [
+  "https://localhost:3458/auth/callback",
+  "https://localhost:3458/auth/shopify/callback",
+  "https://localhost:3458/api/auth/callback"
+]
 
 [pos]
 embedded = false
-
-[mcp.customer_authentication]
-redirect_uris = [
-  "https://shop-chat-agent.com/callback"
-]
