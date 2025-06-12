@@ -3,12 +3,12 @@
 client_id = "e5345202433ca133491f3f117ceb4273"
 name = "Timex Chat AI"
 handle = "timex-chat-ai"
-application_url = "https://localhost:3458"
+application_url = "http://67.207.85.22:3000"
 embedded = true
 
 [build]
-include_config_on_deploy = true
 automatically_update_urls_on_dev = false
+include_config_on_deploy = true
 
 [webhooks]
 api_version = "2025-04"
@@ -19,9 +19,9 @@ scopes = "customer_read_customers,customer_read_orders,customer_read_store_credi
 
 [auth]
 redirect_urls = [
-  "https://localhost:3458/auth/callback",
-  "https://localhost:3458/auth/shopify/callback",
-  "https://localhost:3458/api/auth/callback"
+  "http://67.207.85.22:3000/auth/callback",
+  "http://67.207.85.22:3000/auth/shopify/callback",
+  "http://67.207.85.22:3000/api/auth/callback"
 ]
 
 [pos]
