@@ -3,7 +3,7 @@
 client_id = "e5345202433ca133491f3f117ceb4273"
 name = "Timex Chat AI"
 handle = "timex-chat-ai"
-application_url = "http://67.207.85.22:3000"
+application_url = "https://agent.timex.com"
 embedded = true
 
 [build]
@@ -19,9 +19,9 @@ scopes = "customer_read_customers,customer_read_orders,customer_read_store_credi
 
 [auth]
 redirect_urls = [
-  "http://67.207.85.22:3000/auth/callback",
-  "http://67.207.85.22:3000/auth/shopify/callback",
-  "http://67.207.85.22:3000/api/auth/callback"
+  "https://agent.timex.com/auth/callback",
+  "https://agent.timex.com/auth/shopify/callback",
+  "https://agent.timex.com/api/auth/callback"
 ]
 
 [pos]
