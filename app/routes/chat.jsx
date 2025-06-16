@@ -297,41 +297,45 @@ async function handleChatSession({
  */
 async function getCustomerMcpEndpoint(shopDomain, conversationId) {
   try {
-    // Check if the customer account URL exists in the DB
     const existingUrl = await getCustomerAccountUrl(conversationId);
-
-    // If URL exists, return early with the MCP endpoint
     if (existingUrl) {
       return `${existingUrl}/customer/api/mcp`;
     }
 
-    // If not, query for it from the Shopify API
-    const { hostname } = new URL(shopDomain);
-    const { storefront } = await unauthenticated.storefront(
-      hostname
-    );
+    if (!shopDomain || !shopDomain.startsWith("http")) {
+      throw new Error(`Invalid shop domain: ${shopDomain}`);
+    }
 
-    const response = await storefront.graphql(
-      `#graphql
-      query shop {
+    const { hostname } = new URL(shopDomain);
+    const { storefront } = await unauthenticated.storefront(hostname);
+
+    const response = await storefront.graphql(`
+      query {
         shop {
-          customerAccountUrl
+          primaryDomain {
+            url
+          }
         }
-      }`,
-    );
+      }
+    `);
 
     const body = await response.json();
-    const customerAccountUrl = body.data.shop.customerAccountUrl;
+    const baseUrl = body?.data?.shop?.primaryDomain?.url;
 
-    // Store the customer account URL with conversation ID in the DB
+    if (!baseUrl) {
+      throw new Error("Missing primary domain URL");
+    }
+
+    const customerAccountUrl = `${baseUrl}/account`;
+
     await storeCustomerAccountUrl(conversationId, customerAccountUrl);
-
     return `${customerAccountUrl}/customer/api/mcp`;
   } catch (error) {
-    console.error("Error getting customer MCP endpoint:", error);
+    console.error("❌ Error getting customer MCP endpoint:", error.message);
     return null;
   }
 }
+
 
 /**
  * Gets CORS headers for the response
