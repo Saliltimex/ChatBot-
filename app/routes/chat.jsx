@@ -326,7 +326,7 @@ async function getCustomerMcpEndpoint(shopDomain, conversationId) {
       throw new Error("Missing primary domain URL");
     }
 
-    const customerAccountUrl = `${baseUrl}/account`;
+    const customerAccountUrl = `${baseUrl}`;
 
     await storeCustomerAccountUrl(conversationId, customerAccountUrl);
     return `${customerAccountUrl}/customer/api/mcp`;
