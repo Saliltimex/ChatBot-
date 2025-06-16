@@ -18,9 +18,9 @@ class MCPClient {
     this.customerTools = [];
     this.storefrontTools = [];
     // TODO: Make this dynamic, for that first we need to allow access of mcp tools on password proteted demo stores.
-    this.storefrontMcpEndpoint = `https://agent.timex.com/api/mcp`;
+    this.storefrontMcpEndpoint = `${hostUrl}/api/mcp`;
 
-    console.log(hostUrl ,"josturl" , "storefrontMcpEndpoint")
+    console.log(hostUrl ,"josturl")
 
     const accountHostUrl = hostUrl.replace(/(\.myshopify\.com)$/, '.account$1');
     this.customerMcpEndpoint = customerMcpEndpoint || `${accountHostUrl}/customer/api/mcp`;
