@@ -57,14 +57,15 @@ export async function loader({ request }) {
  */
 function corsHeaders(request) {
   const origin = request.headers.get("Origin") || "*";
-  
+
   return {
     "Access-Control-Allow-Origin": origin,
-    "Access-Control-Allow-Methods": "GET, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Accept",
-    "Access-Control-Max-Age": "86400"
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS", // 🔧 allow POST as well
+    "Access-Control-Allow-Headers": "Content-Type, Accept, X-Shopify-Shop-Id", // 🔧 allow custom headers used by your fetch
+    "Access-Control-Max-Age": "86400",
   };
 }
+
 
 // Handle OPTIONS requests for CORS preflight
 export const action = async ({ request }) => {
