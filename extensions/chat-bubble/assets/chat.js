@@ -489,12 +489,10 @@
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'text/event-stream',
-              'X-Shopify-Shop-Id': shopId
+              'X-Shopify-Shop-Id': shopId,
             },
             body: requestBody
           });
-
-          console.log(response.body , "rdkkk")
 
           const reader = response.body.getReader();
           const decoder = new TextDecoder();
@@ -633,8 +631,6 @@
 
           // Fetch history from the server
           const historyUrl = `https://agent.timex.com/chat?history=true&conversation_id=${encodeURIComponent(conversationId)}`;
-          console.log('Fetching history from:', historyUrl);
-
           const response = await fetch(historyUrl, {
             method: 'GET',
             headers: {
@@ -781,8 +777,8 @@
           attemptCount++;
 
           try {
-            const tokenUrl = 'https://agent.timex.com/auth/token-status?conversation_id=' +
-              encodeURIComponent(conversationId);
+            const tokenUrl = `https://agent.timex.com/auth/token-status?conversation_id=${encodeURIComponent(conversationId)}`;
+
             const response = await fetch(tokenUrl);
 
             if (!response.ok) {
