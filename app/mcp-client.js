@@ -73,7 +73,7 @@ class MCPClient {
 
       return customerTools;
     } catch (e) {
-      console.error("Failed to connect to MCP server: ", e);
+      console.error("Failed to connect to MCP server: 11 ", e);
       throw e;
     }
   }
