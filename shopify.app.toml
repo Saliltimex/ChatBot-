@@ -3,7 +3,7 @@
 client_id = "e5345202433ca133491f3f117ceb4273"
 name = "Timex Chat AI"
 handle = "timex-chat-ai"
-application_url = "https://chatbot-production-142a.up.railway.app.com"
+application_url = "https://agent.timex.com"
 embedded = true
 
 [build]
@@ -19,9 +19,9 @@ scopes = "customer_read_customers,customer_read_orders,customer_read_store_credi
 
 [auth]
 redirect_urls = [
-  "https://chatbot-production-142a.up.railway.app/auth/callback",
-  "https://chatbot-production-142a.up.railway.app/auth/shopify/callback",
-  "https://chatbot-production-142a.up.railway.app/api/auth/callback"
+  "https://agent.timex.com/auth/callback",
+  "https://agent.timex.com/auth/shopify/callback",
+  "https://agent.timex.com/api/auth/callback"
 ]
 
 [pos]

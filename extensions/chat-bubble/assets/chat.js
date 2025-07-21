@@ -481,7 +481,7 @@
             prompt_type: promptType
           });
 
-          const streamUrl = `https://chatbot-production-142a.up.railway.app/chat`;
+          const streamUrl = `https://agent.timex.com/chat`;
           const shopId = window.shopId;
 
           const response = await fetch(streamUrl, {
@@ -630,7 +630,7 @@
           messagesContainer.appendChild(loadingMessage);
 
           // Fetch history from the server
-          const historyUrl = `https://chatbot-production-142a.up.railway.app/chat?history=true&conversation_id=${encodeURIComponent(conversationId)}`;
+          const historyUrl = `https://agent.timex.com/chat?history=true&conversation_id=${encodeURIComponent(conversationId)}`;
           const response = await fetch(historyUrl, {
             method: 'GET',
             headers: {
@@ -777,7 +777,7 @@
           attemptCount++;
 
           try {
-            const tokenUrl = `https://chatbot-production-142a.up.railway.app/auth/token-status?conversation_id=${encodeURIComponent(conversationId)}`;
+            const tokenUrl = `https://agent.timex.com/auth/token-status?conversation_id=${encodeURIComponent(conversationId)}`;
 
             const response = await fetch(tokenUrl);
 
