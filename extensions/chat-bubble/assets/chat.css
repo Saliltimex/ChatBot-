@@ -50,10 +50,9 @@
     bottom: 80px;
     right: 0;
     width: 90vw;
-    max-width: 450px;
-    height: 70vh;
-    height: calc(var(--viewport-height, 100vh) * 0.7);
-    max-height: 650px;
+    max-width: 60vw;
+    height: 80vh;
+    height: calc(var(--viewport-height, 100vh) * 0.8);
     min-height: 350px;
     background-color: white;
     border-radius: 16px;
@@ -132,7 +131,7 @@
 
   .shop-ai-chat-header {
     padding: 16px;
-    background-color: #5046e4;
+    background-color: black;
     color: white;
     font-weight: 600;
     display: flex;
@@ -503,14 +502,14 @@
     margin: 0 0 10px 0;
     font-size: 14px;
     font-weight: 600;
-    color: #5046e4;
+    color: black;
   }
   
   /* Add to Cart Button Styling */
   .shop-ai-add-to-cart {
     width: 100%;
     padding: 8px 0;
-    background-color: #5046e4;
+    background-color: black;
     color: white;
     border: none;
     border-radius: 4px;

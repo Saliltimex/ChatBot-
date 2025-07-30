@@ -561,7 +561,6 @@
           case 'message_complete':
             ShopAIChat.UI.removeTypingIndicator();
             ShopAIChat.Formatting.formatMessageContent(currentMessageElement);
-            ShopAIChat.UI.scrollToBottom();
             break;
 
           case 'end_turn':
