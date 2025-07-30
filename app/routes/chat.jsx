@@ -220,45 +220,62 @@ async function handleChatSession({
           },
 
           // Handle tool use requests
-          onToolUse: async (content) => {
-            const toolName = content.name;
-            const toolArgs = content.input;
-            const toolUseId = content.id;
+          onToolUse: async (toolCall) => {
+  // Defensive property access for latest OpenAI/Claude function call format
+  const toolName = toolCall.function?.name;
+  const toolCallId = toolCall.id;
 
-            const toolUseMessage = `Calling tool: ${toolName} with arguments: ${JSON.stringify(toolArgs)}`;
+  // Arguments: must always be JSON object (decode or default to {})
+  let toolArgs = {};
+  try {
+    if (toolCall.function?.arguments && typeof toolCall.function.arguments === 'string' && toolCall.function.arguments.trim() !== '') {
+      toolArgs = JSON.parse(toolCall.function.arguments);
+    } else {
+      toolArgs = {};
+      console.warn(`⚠️ Empty tool arguments for ${toolName}, using {}`);
+    }
+  } catch (err) {
+    toolArgs = {};
+    console.warn(`🔴 Failed to parse tool arguments for ${toolName}:`, toolCall.function.arguments, err);
+  }
 
-            stream.sendMessage({
-              type: 'tool_use',
-              tool_use_message: toolUseMessage
-            });
+  // Validate call fields before proceeding!
+  if (!toolCallId || !toolName) {
+    console.warn("⚠️ Invalid tool call: missing id or name.", toolCall);
+    return;
+  }
 
-            // Call the tool
-            const toolUseResponse = await mcpClient.callTool(toolName, toolArgs);
+  // Optional: Log tool call for tracking/debug
+  console.log(`📦 Calling tool: ${toolName} ${JSON.stringify(toolArgs)} ID: ${toolCallId}`, toolCall);
 
-            // Handle tool response based on success/error
-            if (toolUseResponse.error) {
-              await toolService.handleToolError(
-                toolUseResponse,
-                toolName,
-                toolUseId,
-                conversationHistory,
-                stream.sendMessage,
-                conversationId
-              );
-            } else {
-              await toolService.handleToolSuccess(
-                toolUseResponse,
-                toolName,
-                toolUseId,
-                conversationHistory,
-                productsToDisplay,
-                conversationId
-              );
-            }
+  // Call your tool via MCP client, always with validated arguments
+  const toolUseResponse = await mcpClient.callTool(toolName, toolArgs);
 
-            // Signal new message to client
-            stream.sendMessage({ type: 'new_message' });
-          },
+  // Handle result via your toolService (assume handleToolSuccess writes OpenAI-compatible response)
+  if (toolUseResponse.error) {
+    await toolService.handleToolError(
+      toolUseResponse,
+      toolName,
+      toolCallId,
+      conversationHistory,
+      stream.sendMessage,
+      conversationId
+    );
+  } else {
+    await toolService.handleToolSuccess(
+      toolUseResponse,
+      toolName,
+      toolCallId,
+      conversationHistory,
+      productsToDisplay,
+      conversationId
+    );
+  }
+
+  // Notify client front-end that a new message might be coming
+  stream.sendMessage({ type: "new_message" });
+},
+
 
           // Handle content block completion
           onContentBlock: (contentBlock) => {
