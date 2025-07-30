@@ -118,25 +118,27 @@ export function createToolService() {
    * @param {string} conversationId - The conversation ID
    */
   const addToolResultToHistory = async (conversationHistory, toolUseId, content, conversationId) => {
-  const toolResultMessage = {
-    role: "tool",                // <- critical for OpenAI/Claude tool fulfillment
-    tool_call_id: toolUseId,     // <- matches the id provided by the model's request
-    content: typeof content === "string" ? content : JSON.stringify(content)
-  };
+    const toolResultMessage = {
+      role: 'user',
+      content: [{
+        type: "tool_result",
+        tool_use_id: toolUseId,
+        content: content
+      }]
+    };
 
-  // Add to memory
-  conversationHistory.push(toolResultMessage);
+    // Add to in-memory history
+    conversationHistory.push(toolResultMessage);
 
-  // Save to DB (optional: save tool_call_id if your schema supports it)
-  if (conversationId) {
-    try {
-      await saveMessage(conversationId, toolResultMessage.role, JSON.stringify(toolResultMessage.content));
-    } catch (error) {
-      console.error('Error saving tool result to database:', error);
+    // Save to database with special format to indicate tool result
+    if (conversationId) {
+      try {
+        await saveMessage(conversationId, 'user', JSON.stringify(toolResultMessage.content));
+      } catch (error) {
+        console.error('Error saving tool result to database:', error);
+      }
     }
-  }
-};
-
+  };
 
   return {
     handleToolError,
